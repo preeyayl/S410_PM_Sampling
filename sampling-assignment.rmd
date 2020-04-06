@@ -1,0 +1,58 @@
+---
+title: "S410 Sampling Project"
+author: "Jackie, Kazmin, Preeya"
+date: '2020-04-06'
+output: html_document
+---
+
+```{r}
+# Sampling streets
+sample(1:272, 6)
+#224,67,207,250,42,265
+
+# ungless way
+set.seed(123)
+sample(1:138, 6)
+#103-288; 1102-288 ;	1203-288; 1803-288  ;	1905-288;	2302-288 
+
+# brew street
+set.seed(123)
+sample(1:341, 6)
+# 608-110 ,1605-110 ,	1703-110, 205-121,	212-121 ,	2701-110 
+df2 <- data.frame(street = "Brew St",
+                  address = c("608-110", "1605-110", "1703-110",
+                              "205-121", "212-121", "2701-110"),
+                  total_value = c(651000, 748000, 654000, 425000, 425000,
+                                  1162000),
+                  land_size = c(1074, 1108, 994, 658, 658, 1684))
+# Note that land_size here is strata area, not land size
+
+# westhill place
+set.seed(123)
+sample(1:149,6)
+#7.	107-200 , 43.	144-200 ,61.	162-200 ,117.	310-204, 129.	323-204 ,137.	331-204 
+
+# parkside court
+parkside <- c("224", "226", "228","230", "232", "234", "236", "238")
+set.seed(123)
+parkside[sample(1:8,6)]
+
+# Second ave
+# Second ave properties: 316, 1265, 306, 304, 300, 1195, 1169, 1190, 1180, 203,
+# 207, 1835, Second Ave Port Moody
+second_ave <- c("316", "1265", "306", "304", "300", "1195", "1169", "1190",
+                "1180", "203", "207", "1835", "Second Ave Port Moody")
+set.seed(123)
+# Taking a sample of size 6 from second_ave
+addresses <- second_ave[sample(1:length(second_ave), 6)]
+
+# Get total value and land size
+# 2020 assessment as of july, 1, 2019
+values <- c(486300, 473000, 540200, 475000, 503000, 472000)
+# land size in square feet
+land_size <- c(5481, 5395, 7465, 5481, 6480, 5397)
+
+df6 <- data.frame(street = "Second Ave", address = addresses,
+                  total_value = values, land_size = land_size)
+```
+
