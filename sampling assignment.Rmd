@@ -1,0 +1,41 @@
+---
+title: "Untitled"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r}
+#install.packages("survey")
+library(survey)
+library(tidyverse)
+pilot_sample <- read.csv("pilot_sample.csv")
+pilot_sample
+head(pilot_sample)
+# survey design
+# psu - street; ssu - address
+pilot.des <- svydesign(data = pilot_sample, id = ~street+address, fpc = ~totSt+totAddinSt)
+est.total <- svytotal(~total_value,pilot.des)
+#estimated total
+est.total
+round(vcov(est.total), 3)
+#95% confidence interval
+confint(est.total)
+
+#Calculating MSW and MSB
+ps2 <- pilot_sample
+group_avg <- ps2 %>% group_by(street) %>%
+  summarise(avg = mean(total_value))
+group_avg <- rep(group_avg$avg, each = 6)
+ps2 <- cbind(ps2, "group_avg" = group_avg)
+ps2$ssw <- (ps2$total_value - group_avg)^2
+msw <- sum(ps2$ssw) / (ps2$totSt[1] * (sum(unique(ps2$totAddinSt)) - 1))
+
+msb <- sum((unique(ps2$group_avg) - mean(ps2$total_value))^2) / (ps2$totSt - 1)
+msb <- mean(msb)
+
+#MSB and MSW
+msw
+msb
+```
+
